@@ -4,12 +4,9 @@
 
 body {
     background-color: black;
+    text-align: center;
 }
 
-.questions{
-    margin: 70px;
-    padding: 10px;
-}
 
 footer {
     margin: 40px;
