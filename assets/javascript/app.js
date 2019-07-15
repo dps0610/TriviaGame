@@ -2,7 +2,8 @@
 var correct = 0;
 var incorrect = 0;
 var questionNumber = 0;
-var timer = 15;
+var timer;
+var intervalId;
 
 var questions = [
     {
@@ -43,24 +44,28 @@ function changeDisplayQuestion() {
 
     $("#display").append("<p> Time Remaining: " + timer + " seconds</p>",
     "<p>" + questions[questionNumber].question + "</p>",
-    "<input class='choices' type='radio' value='1'>" + questions[questionNumber].answers[0] + "</input>",
+    "<input class='choices' type='radio'  id='" + questions[questionNumber].answers[0] + "'>" + questions[questionNumber].answers[0] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' value='2'>" + questions[questionNumber].answers[1] + "</input>",
+    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[1] + "'>" + questions[questionNumber].answers[1] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' value='3'>" + questions[questionNumber].answers[2] + "</input>",
+    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[2] + "'>" + questions[questionNumber].answers[2] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' value='4'>" + questions[questionNumber].answers[3] + "</input>",
+    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[3] + "'>" + questions[questionNumber].answers[3] + "</input>",
+    "<br>",
+    "<button id='submit'>Submit</button>",
     );
+    runTimer();
 };
 
 //Final screen
 function finalScreen(){
+    clearInterval(intervalId);
     if (correct === questions.length) {
         $("#display").empty();
         $("#display").append("<p>You got all " + correct + " right!</p>", "<br>", "<p>You have made Babou proud. May he always remember you.</p>");
-    }else if (wrong > 0) {
+    }else if (incorrect > 0) {
         $("#display").empty();
-        $("#display").append("<p>You make Babou sad. He's sick enough as is, let him be!</p>", "<br>", "<p>" + incorrect + " wrong is all it took.</p>")
+        $("#display").append("<p>You make Babou sad. He's sick enough as is, let him be!</p>", "<br>", "<p>One wrong answeris all it took.</p>","<br>", "<p>You got " + correct + " right.</p>","<br>", "<p>You were a disappointment " + incorrect + " times.</p>" )
     }
 };
 
@@ -69,8 +74,12 @@ function rightAnswerScreen(){
     $("#display").empty();
     $("#display").append("<p>That is correct!</p>");
     correct++;
-    setTimeout(changeDisplayQuestion, 5000);
     questionNumber++;
+    if (questionNumber == 6){ 
+        finalScreen();
+    }else {
+        setTimeout(changeDisplayQuestion, 3000);
+    }
 };
 
 //Wrong Answer
@@ -78,8 +87,12 @@ function wrongAnswerScreen(){
     $("#display").empty();
     $("#display").append("<p>How could you think that?</p>");
     incorrect++;
-    setTimeout(changeDisplayQuestion, 5000);
     questionNumber++;
+    if (questionNumber == 6){ 
+        finalScreen();
+    }else {
+        setTimeout(changeDisplayQuestion, 3000);
+    }
 };
 
 //timeout-No Answer
@@ -87,18 +100,32 @@ function noAnswerScreen(){
     $("#display").empty();
     $("#display").append("<p>Babou is a busy guy. Do better.</p>");
     incorrect++;
-    setTimeout(changeDisplayQuestion, 5000);
     questionNumber++;
+    if (questionNumber == 6){ 
+        finalScreen();
+    }else {
+        setTimeout(changeDisplayQuestion, 3000);
+    }
 };
 
-var clock = setInterval(countDown, 1000);
-    function countDown(){
-        if (timer > 0) {
-            time--;
-        }if (timer <= 0){
-            clearInterval(clock);
-            noAnswer();
-        };
+function runTimer(){
+    clearInterval(intervalId); //keeps from  iterating on itself
+    timer = 15;
+    //console.log(timer + "timer number")
+    intervalId = setInterval(decrement, 1000); //telling this to countdown
+    $("#timer").html(timer);
+}
+
+function decrement(){
+    if (timer == 0){
+        console.log("out of time")
+        clearInterval(intervalId);
+        noAnswerScreen();
+    } else {
+        timer--;
+        $("#timer").html(timer);
+        console.log(timer);
+    }
 };
 
 function determineEnd(){
@@ -113,20 +140,27 @@ function determineEnd(){
 $(document).ready(function (){
     $("#start").click(function (){
         changeDisplayQuestion();
-        countDown();
     });
-
-    $("#disply").on("click", ".choices", function(){
-        var userguess = $(this).text;
-        if (userguess === questions[questionNumber].correctAnswer){
-            clearInterval(clock);
+    $(document).on("click", "#submit", function(){
+        if ($("#" + questions[questionNumber].correctAnswer).is(":checked")){
+            clearInterval(intervalId);
             rightAnswerScreen();
-        }if (timer === 0){
-            noAnswerScreen();
-        }if (usergues !== questions[questionNumber].correctAnswer){
+        }else{
             wrongAnswerScreen();
         }
-    })
+        console.log("areweclicking")
+    });
+    // $("#disply").on("click", "#submit", function(){
+    //     var userguess = $(this).text;
+    //     if (userguess === questions[questionNumber].correctAnswer){
+    //         clearInterval(clock);
+    //         rightAnswerScreen();
+    //     }if (timer === 0){
+    //         noAnswerScreen();
+    //     }if (usergues !== questions[questionNumber].correctAnswer){
+    //         wrongAnswerScreen();
+    //     }
+    // })
 });
 
 
