@@ -9,32 +9,32 @@ var questions = [
     {
       question: "What is the name of Cheryl Tunt's pet ocelot?",
       answers: ["Babar", "Baloo", "Babou", "Nermal"],
-      correctAnswer: "Babou"
+      correctAnswer: 2,
     }, 
     {
       question: "Cheryl has repeatedly expressed buyer's remorse over the ocelot. Why?",
       answers: ["He pees on everything.", "It's a wild animal that shouldn't be a house pet.", "He is frequently sick, and the medical bills are outrageous.", "Nobody believes she owns an ocelot."],
-      correctAnswer: "He is frequently sick, and the medical bills are outrageous."
+      correctAnswer: 2,
     }, 
     {
       question: "In the song 'Broken Hearts and Auto Parts', what specific item did Cheryl say the ocelot peed in?",
       answers: ["Everything", "Her Purse", "Cowboy Boots", "All of her Cars"],
-      correctAnswer: "Her Purse"
+      correctAnswer: 1,
     }, 
     {
       question: "Upon being torn to shreds by the wild cat, Archer insists:",
       answers: ["They 'introduce' him to the wee baby Seamus.", "They buy the cat toys, and compares his living conditions to that of a concentration camp.", "They put the cat down, and with him being the one to do it.", "Cheryl let the sickness take him, like a child before the polio vaccine."],
-      correctAnswer: "They buy the cat toys, and compares his living conditions to that of a concentration camp."
+      correctAnswer: 1,
     }, 
     {
       question: "Did the ocelot remember Archer when they were reunited on the train?",
-      answers: ["Yes", "No"],
-      correctAnswer: "Yes"
+      answers: ["Yes", "No", "Cats don't remember anybody", "Trick question, there was never a train"],
+      correctAnswer: 0,
     },
     {
       question: "Ocelots are ?",
       answers: ["Awesome", "Adept at serpentining to dodge bullets", "Crepuscular", "All of the above"],
-      correctAnswer: "All of the above"
+      correctAnswer: 3,
     }];
 
 
@@ -42,15 +42,15 @@ var questions = [
 function changeDisplayQuestion() {
     $("#display").empty();
 
-    $("#display").append("<p> Time Remaining: " + timer + " seconds</p>",
+    $("#display").append(
     "<p>" + questions[questionNumber].question + "</p>",
-    "<input class='choices' type='radio'  id='" + questions[questionNumber].answers[0] + "'>" + questions[questionNumber].answers[0] + "</input>",
+    "<input class='choices' type='radio'  id='0'>" + questions[questionNumber].answers[0] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[1] + "'>" + questions[questionNumber].answers[1] + "</input>",
+    "<input class='choices' type='radio' id='1'>" + questions[questionNumber].answers[1] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[2] + "'>" + questions[questionNumber].answers[2] + "</input>",
+    "<input class='choices' type='radio' id='2'>" + questions[questionNumber].answers[2] + "</input>",
     "<br>",
-    "<input class='choices' type='radio' id='" + questions[questionNumber].answers[3] + "'>" + questions[questionNumber].answers[3] + "</input>",
+    "<input class='choices' type='radio' id='3'>" + questions[questionNumber].answers[3] + "</input>",
     "<br>",
     "<button id='submit'>Submit</button>",
     );
